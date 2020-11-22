@@ -1,6 +1,7 @@
 var principal = {lat: -5.873076, lon: -35.179377}
 var mapa = carregarMapa(principal);
-var popup = null;
+var currentMarkers = Array();
+var flying = false;
 
 function getList(dataSet, principal){
 	
@@ -63,6 +64,8 @@ function plotar(map){
         .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
             .setHTML(getHtmlPopUp(obj.lat, obj.lon, "bg-primary", "dist/img/photo1.png", obj.valor)))
         .addTo(map);
+
+        currentMarkers.push(marker);
     }
     
 }
@@ -87,37 +90,52 @@ function carregarMapa(principal){
 
     map.addControl(new mapboxgl.FullscreenControl());
 
+    map.on('flystart', function(){
+        flying = true;
+    });
+    
+    map.on('flyend', function(){
+        flying = false;
+    });
+
+    map.on('moveend', function(e){
+     if(flying){
+        animarMapa();
+        map.fire('flyend');
+     }
+    });
+
+
     return map;
 }
 
 
 
 function getLatLongAdress(adress){
-    //adress = adress.replaceAll(" ", "-");
+    adress = adress.replaceAll(" ", "-");
     var retorno = null;
-    /*$.get( "https://api.mapbox.com/geocoding/v5/mapbox.places/"+adress+".json?limit=1&access_token=pk.eyJ1IjoiY3Bhc2NvIiwiYSI6ImNraHFxdHU2NDBwcWQycHFsMmNkYXZhcGwifQ.MVjt_K2VX36okbnzXlkgPg", function( data ) {
+    $.get( "https://api.mapbox.com/geocoding/v5/mapbox.places/"+adress+".json?limit=1&access_token=pk.eyJ1IjoiY3Bhc2NvIiwiYSI6ImNraHFxdHU2NDBwcWQycHFsMmNkYXZhcGwifQ.MVjt_K2VX36okbnzXlkgPg", function( data ) {
       coord = data.features[0].center;
-      var obj = {}
+      var obj =  {"tamanho": 89, "tipo":"Residencial", "valor":258500.00}
       obj["lat"] = coord[1];
       obj["lon"] = coord[0];
-      
-    });*/
+      principal = obj;
+      criarMarcadorPrincipal(obj);
+      plotar(mapa);
+    });
 
-    var obj = {"tamanho": 89, "tipo":"Residencial", "valor":258500.00}
-    obj["lat"] = -23.55091;
-    obj["lon"] = -46.701344;
-    principal = obj;
-    ajustarElementos(obj);
+    
 }
 
-function ajustarElementos(obj){
+function criarMarcadorPrincipal(obj){
      var marker = new mapboxgl.Marker({ "color": "#FF0000" })
       .setLngLat([obj.lon, obj.lat])
       .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
             .setHTML(getHtmlPopUp(obj.lat, obj.lon, "bg-warning", "dist/img/photo2.png", obj.valor)))
       .addTo(mapa);
-      
-      plotar(mapa);
+
+      currentMarkers.push(marker);
+    
       mudarLocalizacao(mapa, obj.lat, obj.lon)
 }
 
@@ -128,12 +146,27 @@ function mudarLocalizacao(map, lat, lon){
         ],
         essential: true // this animation is considered essential with respect to prefers-reduced-motion
         });
+    map.fire('flystart');
 }
 
 function carregarInfoMapa(){
-    //getLatLongAdress($("#endereco").val());
-    getLatLongAdress($("#endereco").val());
+    $('#modalMapa').on('shown.bs.modal', function () { // chooseLocation is the id of the modal.
+      mapa.resize();
+    });
+
+    $('#modalMapa').modal('show');
+
+    removerTodosMarcadores();
+    
+    var obj = {"tamanho": 89, "tipo":"Residencial", "valor":258500.00}
+    obj["lat"] = -23.55091;
+    obj["lon"] = -46.701344;
+    principal = obj;
+    criarMarcadorPrincipal(obj);
+    plotar(mapa);
 }
+
+
 
 
 function getHtmlPopUp(lat, lon, classe, img, valor){
@@ -155,6 +188,20 @@ function getHtmlPopUp(lat, lon, classe, img, valor){
          html +='</div>';
          return html;
 }
+
+
+
+function removerTodosMarcadores(){
+  if(currentMarkers.length > 0){
+    for (var i = currentMarkers.length - 1; i >= 0; i--) {
+      currentMarkers[i].remove();
+    }
+  }
+}
+
+
+
+
 
 
 
