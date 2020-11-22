@@ -188,14 +188,22 @@
             </a>
           </li>
            <li class="nav-item">
-            <a href="cobranca.html" class="nav-link active">
-              <i class="nav-icon fas fa-clipboard-list"></i>
+            <a href="cobranca.html" class="nav-link">
+              <i class="nav-icon fas fa-list-ol"></i>
               <p>
                 Minhas Execuções
                 <span class="badge badge-warning right">5</span>
               </p>
             </a>
-          </li>
+          </li> 
+           <li class="nav-item">
+            <a href="cadastro.html" class="nav-link">
+              <i class="nav-icon fas fa-building"></i>
+              <p>
+                Incluir Imóvel
+              </p>
+            </a>
+          </li>       
         </ul>
       </nav>
 
@@ -236,23 +244,23 @@
 
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-12">
-                  <div class="info-box processo">
+                  <div class="info-box processo" style="cursor: pointer;">
                     <span class="info-box-icon bg-info"><i class="fas fa-clipboard-list"></i></span>
-                    <a href="empresa-detalhe.html">
+                   
                     <div class="info-box-content">
                       <span class="info-box-text">Processo</span>
-                      <span class="info-box-number">25171</span>
+                      <span class="info-box-number" id="numeroProcesso"></span>
                     </div>
-                    </a>
+                   
                     <!-- /.info-box-content -->
                   </div>
                   <!-- /.info-box -->
                 </div>
                 <!-- /.col -->
                 
-                <div class="col-md-6 col-sm-6 col-12" style="cursor: pointer;" onclick="carregarInfoMapa()">
+                <div class="col-md-6 col-sm-6 col-12" >
                   
-                  <div class="info-box">
+                  <div class="info-box" style="cursor: pointer;" onclick="processoExibirImovel()">
                     <span class="info-box-icon bg-warning"><i class="fas fa-map-marked-alt"></i></span>
 
                     <div class="info-box-content">
@@ -278,34 +286,37 @@
               </div><!-- /.card-header -->
               <div class="card-body">
                  <strong><i class="far fa-building"></i> Devedor</strong>
-                <p class="text-muted">
-                   Empresa ABCD S.A
-                </p>
+                <p class="text-muted" id="nomeEmpresa"></p>
                 <hr>
 
                 <strong><i class="fas fa-map-marker-alt mr-1"></i> Endereço</strong>
 
-                <p class="text-muted">Rua Arquiteto Jaime Fonseca Rodrigues 756 São-Paulo SP</p>
+                <p class="text-muted" id="endereco"></p>
 
                 <hr>
 
                 <strong><i class="fas fa-city"></i> Tipo do Imóvel</strong>
 
-                <p class="text-muted">Residencial</p>
+                <p class="text-muted" id="tipoImovel"></p>
                 <hr>
 
 
                 <strong><i class="fas fa-money-check-alt"></i> Valor Declarado</strong>
 
-                <p class="text-muted">R$308.557,02</p>
+                <p class="text-muted" id="valorDeclarado"></p>
                 <hr>
-                <div class="row">
-                   <div class="col-lg-3"><i class="fas fa-expand"></i>&nbsp;&nbsp; 98m²</div>
+                <div class="row" id="infoResidencial">
+                   <div class="col-lg-3" ><i class="fas fa-expand"></i>&nbsp;&nbsp; <span id="tamanhoImovel"></span> </div>
                    <div class="col-lg-3">
-                     <i class="fas fa-bed"></i>&nbsp;&nbsp; 3 quartos
+                     <i class="fas fa-bed"></i>&nbsp;&nbsp; <span id="quartos"></span>
                    </div>
-                   <div class="col-lg-3"> <i class="fas fa-shower"></i>&nbsp;&nbsp; 4 banheiros</div>
-                   <div class="col-lg-3"> <i class="fas fa-car"></i>&nbsp;&nbsp; 2 vagas</div>
+                   <div class="col-lg-3"> <i class="fas fa-shower"></i>&nbsp;&nbsp; <span id="banheiros"></span></div>
+                   <div class="col-lg-3"> <i class="fas fa-car"></i>&nbsp;&nbsp; <span id="vagas"></span></div>
+                </div>
+                <div id="infoComercial">
+                  <br/>
+                  <br/>
+                  <br/>
                 </div>
                 
               </div>
@@ -318,20 +329,19 @@
               <div class="card-header p-2">
                <h3 class="card-title">
                   <i class="fas fa-user-tie"></i>
-                   &nbsp;Sugestão do corretor virtual
+                   &nbsp;Sugestão do avalIAdor
                   </h3>
               </div><!-- /.card-header -->
               <div class="card-body">
                <div class="small-box bg-success">
                 <div class="inner">
-                  <h3>R$ 336.912,00</h3>
+                  <h3 id="valorCalculado"></h3>
                   <p>Valor Sugerido</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-android-bulb"></i>
-              </div>
-               <br/>
-               <!-- <a href="diligencia.html" class="small-box-footer">Detalhe <i class="fas fa-arrow-circle-right"></i></a>-->
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-android-bulb"></i>
+                  </div>
+                   <br/>
               </div>
                 
                 <div class="info-box">
@@ -339,21 +349,21 @@
 
                   <div class="info-box-content">
                     <span class="info-box-text">Valor Médio do m²</span>
-                    <span class="info-box-number">R$5.571,41</span>
+                    <span class="info-box-number" id="valorMedioMetroQuadrado"></span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
 
                  <br/>
                 <strong><i class="far fa-calendar-alt"></i> Data de Inscrição</strong>
-                  <p class="text-muted">
-                     11/12/2019
+                  <p class="text-muted" id="dataCadastro">
+                     
                   </p>
                   <hr>
 
                  <strong><i class="far fa-calendar-alt"></i> Data de Prescrição</strong>
-                  <p class="text-muted">
-                     11/12/2021
+                  <p class="text-muted" id="dataPrescricao">
+                    
                   </p>
                   <p style="font-size: 10px">
                     <br/>
@@ -517,6 +527,13 @@
         <!-- /.modal-dialog -->
       </div>
 
+<div class="modal fade" id="modal-load" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <span class="fa fa-spinner fa-spin fa-3x"></span>
+    </div>
+</div>
+
+
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -549,6 +566,12 @@
 <script src="dist/js/adminlte.js"></script>
 
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+
+
+<script src="plugins/numeral/numeral.js"></script>
+<script src="dist/js/db/execucao_service.js"></script>
+
+<script src="dist/js/pages/empresa_detalhe.js"></script>
 
 
 <script src="dist/js/pages/maps.js"></script>

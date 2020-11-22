@@ -27,16 +27,22 @@ function cadastrarImovel(){
   }else{
   	$("#logradouro").removeClass("is-invalid");
   }
+  if( $("#bairro").val() == ""){
+    ok = false;
+    $("#bairro").addClass("is-invalid");
+  }else{
+    $("#bairro").removeClass("is-invalid");
+  }
 
   if(ok){
-  	var endereco = $("#logradouro").val()+"-"+$("#cidade").val()+"-"+$("#selectUF").val()+"-brazil";
+  	var endereco = $("#logradouro").val()+"-"+$("#cidade").val()+"-"+$("#bairro").val()+"-"+$("#selectUF").val()+"-brazil";
   	getLatLongAdress(endereco);
   }
 }
 
 
-function animarMapa(){
-	modalLoad();
+function processoCadastrarImovel(){
+  modalLoad();
 }
 
 function modalClose(){

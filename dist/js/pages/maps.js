@@ -1,15 +1,25 @@
-var principal = {lat: -5.873076, lon: -35.179377}
+var principal = {latitude: -5.873076, longitude: -35.179377}
 var mapa = carregarMapa(principal);
 var currentMarkers = Array();
 var flying = false;
+var dataSet = Array();
 
-function getList(dataSet, principal){
-	
-	for(var i =0; i < dataSet.length; i++){
-		var dist = distanceInKmBetweenEarthCoordinates(principal[0], principal[1],dataSet[i][0], dataSet[i][1]);
-		dist = Math.round((dist + Number.EPSILON) * 100) / 100;
-		dataSet[i]["distancia"] = dist;
-	}
+function carregarDataSetImoveis(latitude, longitude, callback){
+   var url = "http://139.64.244.144:3000/latlon/"+latitude+"/"+longitude;
+   dataSet = Array();
+   $.ajax({
+        type: "GET",
+        //headers: {"Access-Control-Allow-Origin": "*"},
+        url: url,
+        success: function (result) {
+           dataSet = result;
+           if(callback)
+             callback();
+        }
+    });
+}
+
+function getList(){
 	return dataSet;
 }
 
@@ -32,37 +42,18 @@ function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
   return earthRadiusKm * c;
 }
 
-function carregarDataset(){
-    var dataSet = [
-    	{"id": 1, "lat": -23.54434, "lon":-46.70558, "tamanho": 98, "tipo":"residencial", "valor":300263.50},
-    	{"id": 2, "lat":-23.55461, "lon":-46.69541, "tamanho": 150, "tipo":"residencial", "valor":900378.00},
-    	{"id": 3, "lat":-23.53252, "lon":-46.70429, "tamanho": 57, "tipo":"residencial", "valor":100922.91}
-        ];
-    var lista = getList(dataSet, [principal.lat,principal.lon]);
 
-    //var imoveis = listaToMap(lista);
-    return lista;
-}
-
-function buscar(id){
-    var lista = carregarDataset();
-    for(var i = 0; i < lista.length; i++){
-        if(id == lista[i].id){
-            return lista[i];
-        }
-    }
-}
 
 
 function plotar(map){
-    var imoveis = carregarDataset();
+    var imoveis = getList();
 
     for(var i = 0; i < imoveis.length; i++){
         var obj = imoveis[i];
         var marker = new mapboxgl.Marker()
-        .setLngLat([imoveis[i].lon, imoveis[i].lat])
+        .setLngLat([imoveis[i].longitude, imoveis[i].latitude])
         .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-            .setHTML(getHtmlPopUp(obj.lat, obj.lon, "bg-primary", "dist/img/photo1.png", obj.valor)))
+            .setHTML(getHtmlPopUp(obj.latitude, obj.longitude, "bg-primary", "dist/img/photo1.png", obj.price)))
         .addTo(map);
 
         currentMarkers.push(marker);
@@ -84,7 +75,7 @@ function carregarMapa(principal){
     var map = new mapboxgl.Map({
         container: idmap,
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [principal.lon, principal.lat],
+        center: [principal.longitude, principal.latitude],
         zoom: 14
     });
 
@@ -100,8 +91,8 @@ function carregarMapa(principal){
 
     map.on('moveend', function(e){
      if(flying){
-        animarMapa();
         map.fire('flyend');
+        animarMapa();
      }
     });
 
@@ -117,8 +108,8 @@ function getLatLongAdress(adress){
     $.get( "https://api.mapbox.com/geocoding/v5/mapbox.places/"+adress+".json?limit=1&access_token=pk.eyJ1IjoiY3Bhc2NvIiwiYSI6ImNraHFxdHU2NDBwcWQycHFsMmNkYXZhcGwifQ.MVjt_K2VX36okbnzXlkgPg", function( data ) {
       coord = data.features[0].center;
       var obj =  {"tamanho": 89, "tipo":"Residencial", "valor":258500.00}
-      obj["lat"] = coord[1];
-      obj["lon"] = coord[0];
+      obj["latitude"] = coord[1];
+      obj["longitude"] = coord[0];
       principal = obj;
       criarMarcadorPrincipal(obj);
       plotar(mapa);
@@ -129,27 +120,27 @@ function getLatLongAdress(adress){
 
 function criarMarcadorPrincipal(obj){
      var marker = new mapboxgl.Marker({ "color": "#FF0000" })
-      .setLngLat([obj.lon, obj.lat])
+      .setLngLat([obj.longitude, obj.latitude])
       .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-            .setHTML(getHtmlPopUp(obj.lat, obj.lon, "bg-warning", "dist/img/photo2.png", obj.valor)))
+            .setHTML(getHtmlPopUp(obj.lat, obj.longitude, "bg-warning", "dist/img/photo2.png", obj.valor)))
       .addTo(mapa);
 
       currentMarkers.push(marker);
     
-      mudarLocalizacao(mapa, obj.lat, obj.lon)
+      mudarLocalizacao(mapa, obj.latitude, obj.longitude)
 }
 
-function mudarLocalizacao(map, lat, lon){
+function mudarLocalizacao(map, latitude, longitude){
     map.flyTo({
         center: [
-            lon, lat
+            longitude, latitude
         ],
         essential: true // this animation is considered essential with respect to prefers-reduced-motion
         });
     map.fire('flystart');
 }
 
-function carregarInfoMapa(){
+function carregarInfoMapa(processo){
     $('#modalMapa').on('shown.bs.modal', function () { // chooseLocation is the id of the modal.
       mapa.resize();
     });
@@ -157,25 +148,32 @@ function carregarInfoMapa(){
     $('#modalMapa').modal('show');
 
     removerTodosMarcadores();
-    
-    var obj = {"tamanho": 89, "tipo":"Residencial", "valor":258500.00}
-    obj["lat"] = -23.55091;
-    obj["lon"] = -46.701344;
-    principal = obj;
-    criarMarcadorPrincipal(obj);
+  
+    principal = processo;
+    criarMarcadorPrincipal(processo);
     plotar(mapa);
 }
 
 
-
+function animarMapa(){
+  if(typeof cadastro !== 'undefined' && cadastro){
+    processoCadastrarImovel();
+  }else{
+    processoExibirImovel();
+  }
+      
+}
 
 function getHtmlPopUp(lat, lon, classe, img, valor){
+     var val = valor +"";
+     if( val.indexOf("R$") == -1)
+       valor = numeral(valor).format('$ 0,0.00');
      var html = '<div class="row" sytle="margin-top:10px">';
          html +='  <div class="col-8">';
          html +='       <div class="position-relative">';
          html +='           <img src="'+img+'" alt="Photo 2" class="img-fluid">';
          html +='               <div class="ribbon-wrapper ribbon-lg">';
-         html +='                   <div class="ribbon '+classe+' text-lg">R$'+valor+'</div>';
+         html +='                   <div class="ribbon '+classe+' text-lg">'+valor+'</div>';
          html +='                </div>';
          html +='         </div>';
          html +='    </div>';

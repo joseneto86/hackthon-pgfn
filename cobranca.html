@@ -176,14 +176,22 @@
             </a>
           </li>
            <li class="nav-item">
-            <a href="cobranca.html" class="nav-link active">
-              <i class="nav-icon fas fa-clipboard-list"></i>
+            <a href="cobranca.html" class="nav-link">
+              <i class="nav-icon fas fa-list-ol"></i>
               <p>
                 Minhas Execuções
                 <span class="badge badge-warning right">5</span>
               </p>
             </a>
-          </li>
+          </li> 
+           <li class="nav-item">
+            <a href="cadastro.html" class="nav-link">
+              <i class="nav-icon fas fa-building"></i>
+              <p>
+                Incluir Imóvel
+              </p>
+            </a>
+          </li>       
         </ul>
       </nav>
 
@@ -293,7 +301,7 @@
                 </div>
               </div>
               <div class="card-body table-responsive p-0">
-                <table class="table table-striped table-valign-middle">
+                <table id="tblEmpresas" class="table table-striped table-valign-middle">
                   <thead>
                   <tr>
                     <th>Número</th>
@@ -305,117 +313,6 @@
                   </tr>
                   </thead>
                   <tbody>
-                   <tr>
-                    <td>25171</td>
-                    <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                       Empresa ABCD S.A
-                      <span class="badge bg-danger">Nova</span>
-                    </td>
-                    <td>R$308.557,02</td>
-                    <td>São Paulo - SP</td>
-                    <td>
-                      <strong class="text-success mr-1">
-                        <i class="fas fa-arrow-up"></i>
-                        78%
-                      </strong>
-                    </td>
-                    <td>
-                      <a href="empresa-detalhe.html" class="text-muted">
-                         <i class="fas fa-search"></i>
-                      </a>
-                      
-                    </td>
-                  </tr>  
-
-                  <tr>
-                    <td>45194</td>
-                    <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                      Empresa XPTO LTDA
-                    </td>
-                    <td>R$60.871,12</td>
-                    <td>São Paulo - SP</td>
-                    <td>
-                      <strong class="text-success mr-1">
-                        <i class="fas fa-arrow-up"></i>
-                        69%
-                      </strong>
-                      
-                    </td>
-                    <td>
-                      <a href="empresa-detalhe.html" class="text-muted">
-                         <i class="fas fa-search"></i>
-                      </a>
-                     
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>31108</td>
-                    <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                       Empresa XZCF LTDA
-                    </td>
-                    <td>R$145.481,88</td>
-                    <td>São Paulo - SP</td>
-                    <td>
-                      <strong class="text-warning mr-1">
-                        <i class="fas fa-arrow-right"></i>
-                        53%
-                      </strong>
-                      
-                    </td>
-                  <td>
-                     <a href="empresa-detalhe.html" class="text-muted">
-                         <i class="fas fa-search"></i>
-                      </a>
-                     
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>91124</td>
-                    <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                      Empresa YETAS LTDA
-                    </td>
-                    <td>R$612.374,28</td>
-                    <td>São Paulo - SP</td>
-                    <td>
-                     <strong class="text-danger mr-1">
-                        <i class="fas fa-arrow-down"></i>
-                        12%
-                      </strong>
-                      
-                    </td>
-                    <td>
-                     <a href="empresa-detalhe.html" class="text-muted">
-                         <i class="fas fa-search"></i>
-                      </a>
-                     
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>54517</td>
-                    <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                      Empresa PIPITHU S.A
-                    </td>
-                    <td>R$912.374,28</td>
-                    <td>São Paulo - SP</td>
-                    <td>
-                      <strong class="text-danger mr-1">
-                        <i class="fas fa-arrow-down"></i>
-                        28%
-                      </strong>
-                      
-                    </td>
-                    <td>
-                      <a href="#" class="text-muted">
-                         <i class="fas fa-search"></i>
-                      </a>
-                      
-                    </td>
-                  </tr>
                   </tbody>
                 </table>
               </div>
@@ -472,9 +369,13 @@
 <script src="plugins/summernote/summernote-bs4.min.js"></script>
 <!-- overlayScrollbars -->
 <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
+<script src="plugins/numeral/numeral.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.js"></script>
 
+
+<script src="dist/js/db/execucao_service.js"></script>
 
 <script src="dist/js/pages/cobranca.js"></script>
 

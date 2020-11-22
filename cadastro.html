@@ -271,7 +271,7 @@
             
             <div class="card-body">
               <div class="row">
-                <div class="col-lg-4 col-12">
+                <div class="col-lg-2 col-12">
                    <div class="form-group">
                   <label for="selectTipo">Tipo de Imóvel</label>
                   <select class="custom-select" id="selectTipo">
@@ -280,7 +280,7 @@
                   </select>
                 </div>
                 </div>
-                <div class="col-lg-4 col-12">
+                <div class="col-lg-2 col-12">
                    <div class="form-group">
                     <label for="selectUF">UF</label>
                     <select class="custom-select" id="selectUF">
@@ -320,6 +320,13 @@
                       <input type="text" class="form-control" id="cidade" placeholder="Cidade">
                       </div>
                 </div>
+               
+                <div class="col-lg-4 col-12">
+                   <div class="form-group">
+                      <label for="Bairroro">Bairro</label>
+                      <input type="text" class="form-control" id="bairro" placeholder="Bairro">
+                      </div>
+                </div>
             </div>
                 
 
@@ -330,12 +337,13 @@
                       <input type="text" class="form-control" id="logradouro" placeholder="Logradouro">
                       </div>
                 </div>
-                <div class="col-lg-4 col-12">
+                 <div class="col-lg-4 col-12">
                    <div class="form-group">
                       <label for="tamanho">Tamanho m²</label>
                       <input type="number" class="form-control" id="tamanho" >
                       </div>
                 </div>
+                
             </div>
 
             <div class="row" id="cadResidencial" style="display: none">
@@ -493,6 +501,7 @@
 <script src="dist/js/adminlte.js"></script>
 
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+<script src="plugins/numeral/numeral.js"></script>
 <script src="dist/js/pages/maps.js"></script>
 <script src="dist/js/pages/cadastro.js"></script>
 </body>

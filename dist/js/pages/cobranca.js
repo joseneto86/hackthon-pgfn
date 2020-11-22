@@ -66,4 +66,47 @@ $(function () {
 
     
 
-  })
+  });
+
+
+function preencherTabela(){
+
+  execucaoService.dataset.forEach(function(empresa, index){
+    var tr = document.createElement("tr");
+    var td = document.createElement("td");
+    $(td).html(empresa.id);
+    $(tr).append(td);
+    td = document.createElement("td");
+    $(td).html(empresa.nome);
+    if( index == 0 ){
+       $(td).html( $(td).html() + "&nbsp;&nbsp;<span class=\"badge bg-danger\">Nova</span>");
+    }
+    $(tr).append(td);
+    td = document.createElement("td");
+    $(td).html(numeral(empresa.divida).format('$ 0,0.00'));
+    $(tr).append(td);
+    td = document.createElement("td");
+    $(td).html(empresa.cidade + " - " + empresa.uf);
+    $(tr).append(td);
+    td = document.createElement("td");
+    $(td).html("<span class=\"badge bg-"+getChancesColor(empresa.chances)+"\">"+empresa.chances+"%</span>");
+    $(tr).append(td);
+    td = document.createElement("td");
+    $(td).html("<a href=\"empresa-detalhe.html?processo="+empresa.id+"\" class=\"text-muted\"><i class=\"fas fa-search\"></i></a>");
+    $(tr).append(td);
+    $("#tblEmpresas tbody").append(tr);
+  });
+}
+
+function getChancesColor(chances){
+  if(chances > 59){
+    return "success";
+  }else if(chances < 59 && chances > 49){
+    return "warning"
+  }else{
+    return "danger";
+  }
+}
+
+var execucaoService = new ExecucaoService(preencherTabela);
+
