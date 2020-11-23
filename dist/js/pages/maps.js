@@ -87,7 +87,7 @@ function plotarImoveisPgfn(imoveis){
         var marker = new mapboxgl.Marker({ "color": "#FF0000" })
         .setLngLat([imoveis[i].longitude, imoveis[i].latitude])
         .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-            .setHTML(getHtmlPopUp(obj.latitude, obj.longitude, "bg-primary", obj.image , obj.price, obj.businesstype, obj.totalareas, obj.bedrooms, obj.bathrooms, obj.suites)))
+            .setHTML(getHtmlPopUp(obj.latitude, obj.longitude, "bg-warning", obj.image , obj.price, obj.businesstype, obj.usableareas, obj.bedrooms, obj.bathrooms, obj.suites)))
         .addTo(mapa);
 
         currentMarkers.push(marker);
