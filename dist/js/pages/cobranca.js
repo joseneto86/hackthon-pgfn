@@ -118,7 +118,7 @@ function verTodasEmpresas(){
 
     removerTodosMarcadores();
     objImovel = execucaoService.dataset[0];
-    carregarDataSetImoveis(objImovel.latitude, objImovel.longitude);
+    carregarDataSetImoveisTotal(objImovel.latitude, objImovel.longitude);
     plotarImoveisPgfn(execucaoService.dataset);
     plotar(mapa);
     mudarLocalizacao(mapa, objImovel.latitude, objImovel.longitude);

@@ -34,12 +34,7 @@ function cadastrarImovel(){
   	$("#cidade").removeClass("is-invalid");
   }
 
-   if( $("#cep").val() == ""){
-    ok = false;
-    $("#cep").addClass("is-invalid");
-  }else{
-    $("#cep").removeClass("is-invalid");
-  }
+   
 
   if( $("#logradouro").val() == ""){
     ok = false;
@@ -110,7 +105,7 @@ function cadastrarImovel(){
   
 
   if(ok){
-  	var endereco = encodeURI($("#logradouro").val())+"-"+encodeURI($("#cep").val())+"-"+encodeURI($("#cidade").val())+"-"+encodeURI($("#bairro").val())+"-"+$("#selectUF").val()+"-Brazil";
+  	var endereco = $("#logradouro").val()+"-"+$("#cidade").val()+"-"+$("#bairro").val()+"-"+$("#selectUF").val()+"-Brazil";
     getLatLongAdress(endereco, processarMapa);
     
   }

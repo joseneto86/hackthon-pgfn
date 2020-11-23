@@ -20,6 +20,22 @@ function carregarDataSetImoveis(latitude, longitude, callback){
     });
 }
 
+function carregarDataSetImoveisTotal(latitude, longitude, callback){
+   var url = "http://139.64.244.144:3000/anuncio2/"+latitude+"/"+longitude+"/200";
+   dataSet = Array();
+   $.ajax({
+        type: "GET",
+        //headers: {"Access-Control-Allow-Origin": "*"},
+        url: url,
+        async:false,
+        success: function (result) {
+           dataSet = result;
+           if(callback)
+             callback();
+        }
+    });
+}
+
 function getValorMedioMetroQuadrado(){
     var totalValorImoveis = 0;
     var totalMetros = 0;
