@@ -5,12 +5,13 @@ var flying = false;
 var dataSet = Array();
 
 function carregarDataSetImoveis(latitude, longitude, callback){
-   var url = "http://139.64.244.144:3000/latlon/"+latitude+"/"+longitude;
+   var url = "http://139.64.244.144:3000/anuncio/"+latitude+"/"+longitude;
    dataSet = Array();
    $.ajax({
         type: "GET",
         //headers: {"Access-Control-Allow-Origin": "*"},
         url: url,
+        async:false,
         success: function (result) {
            dataSet = result;
            if(callback)
@@ -18,6 +19,20 @@ function carregarDataSetImoveis(latitude, longitude, callback){
         }
     });
 }
+
+function getValorMedioMetroQuadrado(){
+    var totalValorImoveis = 0;
+    var totalMetros = 0;
+    
+    dataSet.forEach(function(processo, index){
+      if( ! isNaN(parseFloat(processo.price)) &&  ! isNaN(parseInt(processo.totalareas))){
+        totalValorImoveis += parseFloat(processo.price);
+        totalMetros += parseInt(processo.totalareas);
+      }
+    });
+
+    return totalValorImoveis/totalMetros;
+  }
 
 function getList(){
 	return dataSet;
@@ -47,13 +62,15 @@ function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
 
 function plotar(map){
     var imoveis = getList();
-
     for(var i = 0; i < imoveis.length; i++){
         var obj = imoveis[i];
+        if(obj.image === 'undefined' || obj.image == ''){
+            obj["image"] = "dist/img/sem_foto.png"
+        }
         var marker = new mapboxgl.Marker()
         .setLngLat([imoveis[i].longitude, imoveis[i].latitude])
         .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-            .setHTML(getHtmlPopUp(obj.latitude, obj.longitude, "bg-primary", "dist/img/photo1.png", obj.price)))
+            .setHTML(getHtmlPopUp(obj.latitude, obj.longitude, "bg-primary", obj.image , obj.price, obj.businesstype, obj.totalareas, obj.bedrooms, obj.bathrooms, obj.suites)))
         .addTo(map);
 
         currentMarkers.push(marker);
@@ -102,7 +119,7 @@ function carregarMapa(principal){
 
 
 
-function getLatLongAdress(adress){
+function getLatLongAdress(adress, callback){
     adress = adress.replaceAll(" ", "-");
     var retorno = null;
     $.get( "https://api.mapbox.com/geocoding/v5/mapbox.places/"+adress+".json?limit=1&access_token=pk.eyJ1IjoiY3Bhc2NvIiwiYSI6ImNraHFxdHU2NDBwcWQycHFsMmNkYXZhcGwifQ.MVjt_K2VX36okbnzXlkgPg", function( data ) {
@@ -110,19 +127,22 @@ function getLatLongAdress(adress){
       var obj =  {"tamanho": 89, "tipo":"Residencial", "valor":258500.00}
       obj["latitude"] = coord[1];
       obj["longitude"] = coord[0];
-      principal = obj;
-      criarMarcadorPrincipal(obj);
-      plotar(mapa);
+      
+      if(callback)
+        callback(obj);
     });
 
     
 }
 
 function criarMarcadorPrincipal(obj){
+     if(obj.image == undefined || obj.image == ''){
+         obj["image"] = "dist/img/sem_foto.png"
+     }
      var marker = new mapboxgl.Marker({ "color": "#FF0000" })
       .setLngLat([obj.longitude, obj.latitude])
       .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-            .setHTML(getHtmlPopUp(obj.lat, obj.longitude, "bg-warning", "dist/img/photo2.png", obj.valor)))
+            .setHTML(getHtmlPopUp(obj.lat, obj.longitude, "bg-warning", obj.image, obj.price, obj.businesstype, obj.totalareas, obj.bedrooms, obj.bathrooms, obj.suites)))
       .addTo(mapa);
 
       currentMarkers.push(marker);
@@ -152,36 +172,44 @@ function carregarInfoMapa(processo){
     principal = processo;
     criarMarcadorPrincipal(processo);
     plotar(mapa);
+
+    ('#modalMapa').modal('hide');
 }
 
 
 function animarMapa(){
   if(typeof cadastro !== 'undefined' && cadastro){
     processoCadastrarImovel();
-  }else{
-    processoExibirImovel();
   }
       
 }
 
-function getHtmlPopUp(lat, lon, classe, img, valor){
+function getHtmlPopUp(lat, lon, classe, img, valor, tipo, tamanho, quartos, banheiros, suites){
      var val = valor +"";
      if( val.indexOf("R$") == -1)
        valor = numeral(valor).format('$ 0,0.00');
+
+     img = img.replace("{action}", "crop");
+     img = img.replace("{width}x{height}", "420x236");
+
      var html = '<div class="row" sytle="margin-top:10px">';
          html +='  <div class="col-8">';
          html +='       <div class="position-relative">';
          html +='           <img src="'+img+'" alt="Photo 2" class="img-fluid">';
-         html +='               <div class="ribbon-wrapper ribbon-lg">';
+         html +='               <div class="ribbon-wrapper ribbon-xl">';
          html +='                   <div class="ribbon '+classe+' text-lg">'+valor+'</div>';
          html +='                </div>';
          html +='         </div>';
          html +='    </div>';
          html +='    <div class="col-4">';            
-         html +='       <strong><i class="far fa-building"></i> Tipo</strong>';
-         html +='       <p class="text-muted">Residencial</p>';
-         html +='       <strong><i class="fas fa-expand-arrows-alt"></i> Tamanho</strong>';
-         html +='       <p class="text-muted">89m2</p>';
+         html +='       <strong><i class="fas fa-expand"></i> Área</strong>';
+         html +='       <p class="text-muted">'+tamanho+'</p>';
+         html +='       <strong><i class="fas fa-bed"></i> Quartos</strong>';
+         html +='       <p class="text-muted">'+quartos+'</p>';
+         html +='       <strong><i class="fas fa-shower"></i> Banheiros</strong>';
+         html +='       <p class="text-muted">'+banheiros+'</p>';
+         html +='       <strong><i class="fas fa-bath"></i> Suítes</strong>';
+         html +='       <p class="text-muted">'+suites+'</p>';
          html +='     </div>';
          html +='</div>';
          return html;

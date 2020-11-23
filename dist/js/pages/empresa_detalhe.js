@@ -5,22 +5,22 @@ var execucaoService = new ExecucaoService(preencherEmpresa);
 var processo = null;
 function preencherEmpresa(){
 	processo = execucaoService.buscar(idProcesso);
-	$("#numeroProcesso").html(processo.id);
+	$("#numeroProcesso").html(processo.id_imoveis);
 	$("#nomeEmpresa").html(processo.nome);
-	$("#endereco").html(processo.endereco);
-	$("#tipoImovel").html(processo.tipoImovel);
-	$("#valorDeclarado").html(numeral(processo.valorDeclarado).format('$ 0,0.00'));
-	$("#valorCalculado").html(numeral(processo.valorCalculado).format('$ 0,0.00'));
-	$("#valorMedioMetroQuadrado").html(numeral(processo.valorMedioMetroQuadrado).format('$ 0,0.00'));
-	$("#dataCadastro").html(processo.dataCadastro);
-	$("#dataPrescricao").html(processo.dataPrescricao);
-	if(processo.tipoImovel == "Residencial"){
+	$("#endereco").html(processo.street);
+	$("#tipoImovel").html(processo.businesstype);
+	$("#valorDeclarado").html(numeral(processo.declared_price).format('$ 0,0.00'));
+	$("#valorCalculado").html(numeral(processo.price).format('$ 0,0.00'));
+	$("#valorMedioMetroQuadrado").html(numeral(processo.price_m2).format('$ 0,0.00'));
+	$("#dataCadastro").html(processo.createdat);
+	$("#dataPrescricao").html(processo.final_date);
+	if(processo.businesstype == "Residencial"){
 		$("#infoResidencial").css("display", "");
 		$("#infoComercial").css("display", "none");
-		$("#tamanhoImovel").html(processo.tamanho+"m²");
-		$("#quartos").html(processo.quartos+" quartos");
-		$("#banheiros").html(processo.banheiros+" banheiros");
-		$("#vagas").html(processo.vagas+" vagas");
+		$("#tamanhoImovel").html(processo.totalareas+"m²");
+		$("#quartos").html(processo.bedrooms+" quartos");
+		$("#banheiros").html(processo.bathrooms+" banheiros");
+		$("#vagas").html(processo.parkingspaces+" vagas");
 	}else{
 		$("#infoResidencial").css("display", "none");
 		$("#infoComercial").css("display", "");
