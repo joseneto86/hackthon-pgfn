@@ -26,7 +26,32 @@
   <!-- summernote -->
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
 
-  <link rel="stylesheet" href="plugins/brmap/css/map.css">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+
+  <style>
+    .mapboxgl-popup-close-button{
+      font-size: 25px;
+    }
+    .mapboxgl-popup-content{
+      width: 500px;
+    }
+    
+    .bd-example-modal-lg .modal-dialog{
+    display: table;
+    position: relative;
+    margin: 0 auto;
+    top: calc(50% - 24px);
+  }
+  
+  .bd-example-modal-lg .modal-dialog .modal-content{
+    background-color: transparent;
+    border: none;
+  }
+  .widget-user-2 .widget-user-image>img {
+    width: 100px;
+  }
+
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -156,10 +181,11 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="dist/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
+          <img src="dist/img/daniel.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Procurador João</a>
+          <a href="#" class="d-block" style="font-size: 20px;
+    margin-left: 10px;">Daniel Saboia</a>
         </div>
       </div>
 
@@ -167,10 +193,10 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+            <a href="index.html" class="nav-link active">
+              <i class="nav-icon fas fa-building"></i>
               <p>
-                Painel PGFN
+                Avaliar Imóvel
               </p>
             </a>
           </li>
@@ -183,16 +209,17 @@
               </p>
             </a>
           </li> 
-           <li class="nav-item">
-            <a href="cadastro.html" class="nav-link">
-              <i class="nav-icon fas fa-building"></i>
+          <li class="nav-item">
+            <a href="painel.html" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Incluir Imóvel
+                Painel PGFN
               </p>
             </a>
           </li>       
         </ul>
       </nav>
+
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -205,12 +232,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">PAINEL DA PGFN</h1>
+            <h1 class="m-0">AVALIAÇÃO DE IMÓVEIS</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Painel PGFN</li>
+              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+              <li class="breadcrumb-item active">Avaliação de Imovel</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -220,124 +247,161 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>R$ 4.23M</h3>
-
-                <p>Arrecadados no Mês</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-cash"></i>
-              </div>
-              <span href="#" class="small-box-footer">Detalhe <i class="fas fa-arrow-circle-right"></i></span>
-            </div>
-          </div>
-
-           <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-white">
-              <div class="inner">
-                <h3>237</h3>
-
-                <p>Novas Dívidas</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-clipboard"></i>
-              </div>
-              <span href="#" class="small-box-footer">Detalhe <i class="fas fa-arrow-circle-right"></i></span>
-            </div>
-          </div>
-
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3>56<sup style="font-size: 20px">%</sup></h3>
-
-                <p>Taxa de Sucesso</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-checkmark-circled"></i>
-              </div>
-              <span href="#" class="small-box-footer">Detalhe <i class="fas fa-arrow-circle-right"></i></span>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <h3>159K</h3>
-
-                <p>Dívidas Passíveis de Negociação</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-ios-paperplane"></i>
-              </div>
-              <span href="#" class="small-box-footer">Detalhe <i class="fas fa-arrow-circle-right"></i></span>
-            </div>
-          </div>
-         
-        </div>
-        <!-- /.row -->
+      <div class="container-fluid" id="conteudo_cadastro">
+      
         <!-- Main row -->
         <div class="row">
           <!-- Left col -->
-          <section class="col-lg-6 connectedSortable">
-             <div class="card card-info" style="height: 98%">
-                  <div class="card-header">
-                    <h3 class="card-title">Dívidas por UF</h3>
-                  </div>
-                  <div class="card-body">
-                    <div class="chart">
-                      <div id="container-mapa-brasil"></div>
-                    </div>
-                  </div>
-                  <!-- /.card-body -->
+          <div id="map_container" class="col-lg-12" style="height: 300px">
+
+          </div>
+    
+          
+        </div>
+
+
+
+        <div class="row" style="margin-top: 10px">
+         
+          <div class="card col-lg-12" >
+            <div class="card-header">
+              
+              <h3 class="card-title"><i class="fas fa-building"></i>&nbsp; DADOS DO IMÓVEL</h3>
+            </div>
+                        
+            
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-4 col-12">
+                   <div class="form-group">
+                      <label for="nome">Devedor</label>
+                      <input type="text" class="form-control" id="nome" placeholder="Devedor">
+                      </div>
                 </div>
-          </section>
-          <!-- /.Left col -->
-          <!-- right col (We are only adding the ID to make the widgets sortable)-->
-          <section class="col-lg-6 connectedSortable">
-               <div>
-               <!-- LINE CHART -->
-                <div class="card card-info">
-                  <div class="card-header">
-                    <h3 class="card-title">Dívidas Executadas</h3>
+                <div class="col-lg-2 col-12">
+                   <div class="form-group">
+                    <label for="selectUF">UF</label>
+                    <select class="custom-select" id="selectUF">
+                      <option value="AC">Acre</option>
+                      <option value="AL">Alagoas</option>
+                      <option value="AP">Amapá</option>
+                      <option value="AM">Amazonas</option>
+                      <option value="BA">Bahia</option>
+                      <option value="CE">Ceará</option>
+                      <option value="DF">Distrito Federal</option>
+                      <option value="ES">Espírito Santo</option>
+                      <option value="GO">Goiás</option>
+                      <option value="MA">Maranhão</option>
+                      <option value="MT">Mato Grosso</option>
+                      <option value="MS">Mato Grosso do Sul</option>
+                      <option value="MG">Minas Gerais</option>
+                      <option value="PA">Pará</option>
+                      <option value="PB">Paraíba</option>
+                      <option value="PR">Paraná</option>
+                      <option value="PE">Pernambuco</option>
+                      <option value="PI">Piauí</option>
+                      <option value="RJ">Rio de Janeiro</option>
+                      <option value="RN">Rio Grande do Norte</option>
+                      <option value="RS">Rio Grande do Sul</option>
+                      <option value="RO">Rondônia</option>
+                      <option value="RR">Roraima</option>
+                      <option value="SC">Santa Catarina</option>
+                      <option value="SP" selected>São Paulo</option>
+                      <option value="SE">Sergipe</option>
+                      <option value="TO">Tocantins</option>
+                    </select>
                   </div>
-                  <div class="card-body">
-                    <div class="chart">
-                      <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                    </div>
-                  </div>
-                  <!-- /.card-body -->
                 </div>
-            <!-- /.card -->
-             </div>
-             <div>
-                <!-- LINE CHART -->
-                <div class="card card-info" >
-                  <div class="card-header">
-                    <h3 class="card-title">Dívidas Negociadas por Classe</h3>
-                  </div>
-                  <div class="card-body">
-                    <div class="chart">
-                       <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                    </div>
-                  </div>
-                  <!-- /.card-body -->
+                <div class="col-lg-3 col-12">
+                   <div class="form-group">
+                      <label for="cidade">Cidade</label>
+                      <input type="text" class="form-control" id="cidade" placeholder="Cidade" >
+                      </div>
                 </div>
-            <!-- /.card -->
-             </div>
-          </section>
-          <!-- right col -->
+               
+                <div class="col-lg-3 col-12">
+                   <div class="form-group">
+                      <label for="Bairroro">Bairro</label>
+                      <input type="text" class="form-control" id="bairro" placeholder="Bairro" >
+                      </div>
+                </div>
+            </div>
+                
+
+            <div class="row">
+
+                <div class="col-lg-6 col-12">
+                   <div class="form-group">
+                      <label for="logradouro">Logradouro</label>
+                      <input type="text" class="form-control" id="logradouro" placeholder="Logradouro">
+                      </div>
+                </div>
+               
+                 <div class="col-lg-2 col-12">
+                   <div class="form-group">
+                  <label for="selectTipo">Tipo de Imóvel</label>
+                  <select class="custom-select" id="selectTipo">
+                     <option value="residencial">Residencial</option>
+                    <option value="comercial">Comercial</option>
+                  </select>
+                </div>
+                </div>
+                
+                 <div class="col-lg-1 col-12">
+                   <div class="form-group">
+                      <label for="tamanho">Área m²</label>
+                      <input type="number" class="form-control" id="tamanho" >
+                      </div>
+                </div>
+                <div class="col-lg-3 col-12">
+                   <div class="form-group">
+                      <label for="tamanho">Valor Declarado</label>
+                      <input type="text" class="form-control" id="valorDeclarado" >
+                      </div>
+                </div>
+                
+            </div>
+
+            <div class="row" id="cadResidencial">
+                <div class="col-lg-3 col-12">
+                   <div class="form-group">
+                      <label for="vagas" >Vagas de Garagem</label>
+                      <input type="number" class="form-control" id="vagas" >
+                      </div>
+                </div>
+                <div class="col-lg-3 col-12">
+                   <div class="form-group">
+                      <label for="vagas">Banheiros</label>
+                      <input type="number" class="form-control" id="banheiros" >
+                      </div>
+                </div>
+                 <div class="col-lg-3 col-12">
+                   <div class="form-group">
+                      <label for="quartos">Quartos</label>
+                      <input type="number" class="form-control" id="quartos" >
+                      </div>
+                </div>
+                <div class="col-lg-3 col-12">
+                   <div class="form-group">
+                      <label for="suites">Suítes</label>
+                      <input type="number" class="form-control" id="suites" >
+                      </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                 <div class="col-lg-10 col-12"></div>
+                 <div class="col-lg-2 col-12" style="text-align: right;">
+                    <button onclick="cadastrarImovel()" class="btn btn-primary">Cadastrar</button>
+                </div>
+            </div>
+
+          </div>
+
+         </div>
+          
+            
+          </div>
         </div>
         <!-- /.row (main row) -->
       </div><!-- /.container-fluid -->
@@ -355,7 +419,79 @@
   </aside>
   <!-- /.control-sidebar -->
 </div>
+
 <!-- ./wrapper -->
+<div class="modal fade" id="modal-load" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <span class="fa fa-spinner fa-spin fa-3x"></span>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-corretor">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="card card-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header">
+                <div style="text-align: right;">
+                  <i class="far fa-comments"></i>
+                </div>
+                <div class="row">
+                  <div class="col-lg-5">
+                     <div class="widget-user-image">
+                      <img class="img-circle elevation-2" src="dist/img/corretor-1.png" alt="User Avatar">
+                    </div>
+                    <!-- /.widget-user-image -->
+                    <h2 class="widget-user-username" style="margin-left: 111px;font-weight: 500;">CorretorIA</h2>
+                    <h5 class="widget-user-desc" style="margin-left: 111px;"> Parabéns achamos o valor ideal!</h5>
+                  </div>
+                  <div class="col-lg-7">
+                     <div class="row">
+                       <div class="col-lg-6">
+                         <div class="small-box bg-success">
+                            <div class="inner">
+                              <h3 id="precoSugerido"></h3>
+                              <p>Valor Sugerido</p>
+                              </div>
+                              <div class="icon">
+                                <i class="ion ion-android-bulb"></i>
+                              </div>
+                               <br/>
+                          </div>
+                       </div>
+                        <div class="col-lg-6">
+                          <div class="small-box ">
+                            <div class="inner">
+                              <h3 id="valorMetroQuadrado"></h3>
+                              <p>Média de valore por m²</p>
+                              </div>
+                              <div class="icon">
+                                <i class="ion ion-android-bulb"></i>
+                              </div>
+                               <br/>
+                          </div>
+                        </div>
+                        </div>
+                  </div>
+                </div>
+
+
+                </div>
+                <div class="card-footer p-0"></div>
+
+              </div>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
 
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
@@ -371,9 +507,7 @@
 <script src="plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
 <script src="plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+
 <!-- jQuery Knob Chart -->
 <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
@@ -387,16 +521,14 @@
 <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
 
+<!-- InputMask -->
+<script src="../../plugins/moment/moment.min.js"></script>
+<script src="../../plugins/inputmask/jquery.inputmask.min.js"></script>
 
-<script src="dist/js/pages/dashboard.js"></script>
-
-<script src="plugins/brmap/js/highmaps.js"></script>
-<script src="plugins/brmap/js/exporting.js"></script>
-<script src="plugins/brmap/js/br-all.js"></script>
-
-<script type="text/javascript" src="plugins/brmap/js/map.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+<script src="plugins/numeral/numeral.js"></script>
+<script src="dist/js/pages/maps.js"></script>
+<script src="dist/js/pages/cadastro.js"></script>
 </body>
 </html>

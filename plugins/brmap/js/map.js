@@ -38,7 +38,7 @@ Highcharts.mapChart('container-mapa-brasil', {
     },
 
     title: {
-        text: 'Dívidas por UF'
+        text: 'Imóveis por UF'
     },
 
     mapNavigation: {
