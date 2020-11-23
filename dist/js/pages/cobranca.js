@@ -70,6 +70,7 @@ $(function () {
 
 
 function preencherTabela(){
+  carregarMapa(principal);
 
   execucaoService.dataset.forEach(function(empresa, index){
     var tr = document.createElement("tr");
@@ -108,6 +109,21 @@ function getChancesColor(chances){
   }
 }
 
+function verTodasEmpresas(){
+   $('#modalMapa').on('shown.bs.modal', function () { // chooseLocation is the id of the modal.
+      mapa.resize();
+    });
+
+    $('#modalMapa').modal('show');
+
+    removerTodosMarcadores();
+    objImovel = execucaoService.dataset[0];
+    carregarDataSetImoveis(objImovel.latitude, objImovel.longitude);
+    plotarImoveisPgfn(execucaoService.dataset);
+    plotar(mapa);
+    mudarLocalizacao(mapa, objImovel.latitude, objImovel.longitude);
+    
+}
 
 
 var execucaoService = new ExecucaoService(preencherTabela);

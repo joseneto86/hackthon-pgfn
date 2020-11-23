@@ -60,22 +60,38 @@ function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
 
 
 
-function plotar(map){
+function plotar(){
     var imoveis = getList();
     for(var i = 0; i < imoveis.length; i++){
         var obj = imoveis[i];
-        if(obj.image === 'undefined' || obj.image == ''){
+        if(obj.image == undefined || obj.image == ''){
             obj["image"] = "dist/img/sem_foto.png"
         }
         var marker = new mapboxgl.Marker()
         .setLngLat([imoveis[i].longitude, imoveis[i].latitude])
         .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
             .setHTML(getHtmlPopUp(obj.latitude, obj.longitude, "bg-primary", obj.image , obj.price, obj.businesstype, obj.totalareas, obj.bedrooms, obj.bathrooms, obj.suites)))
-        .addTo(map);
+        .addTo(mapa);
 
         currentMarkers.push(marker);
     }
     
+}
+
+function plotarImoveisPgfn(imoveis){
+    for(var i = 0; i < imoveis.length; i++){
+        var obj = imoveis[i];
+        if(obj.image == undefined || obj.image == ''){
+            obj["image"] = "dist/img/sem_foto.png"
+        }
+        var marker = new mapboxgl.Marker({ "color": "#FF0000" })
+        .setLngLat([imoveis[i].longitude, imoveis[i].latitude])
+        .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+            .setHTML(getHtmlPopUp(obj.latitude, obj.longitude, "bg-primary", obj.image , obj.price, obj.businesstype, obj.totalareas, obj.bedrooms, obj.bathrooms, obj.suites)))
+        .addTo(mapa);
+
+        currentMarkers.push(marker);
+    }
 }
 
 
@@ -147,7 +163,7 @@ function criarMarcadorPrincipal(obj){
 
       currentMarkers.push(marker);
     
-      mudarLocalizacao(mapa, obj.latitude, obj.longitude)
+      mudarLocalizacao(mapa, obj.latitude, obj.longitude);
 }
 
 function mudarLocalizacao(map, latitude, longitude){
@@ -173,7 +189,6 @@ function carregarInfoMapa(processo){
     criarMarcadorPrincipal(processo);
     plotar(mapa);
 
-    ('#modalMapa').modal('hide');
 }
 
 
