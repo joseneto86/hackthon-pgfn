@@ -158,7 +158,7 @@ function criarMarcadorPrincipal(obj){
      var marker = new mapboxgl.Marker({ "color": "#FF0000" })
       .setLngLat([obj.longitude, obj.latitude])
       .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-            .setHTML(getHtmlPopUp(obj.lat, obj.longitude, "bg-warning", obj.image, obj.price, obj.businesstype, obj.totalareas, obj.bedrooms, obj.bathrooms, obj.suites)))
+            .setHTML(getHtmlPopUp(obj.lat, obj.longitude, "bg-warning", obj.image, obj.price, obj.businesstype, obj.usableareas, obj.bedrooms, obj.bathrooms, obj.suites)))
       .addTo(mapa);
 
       currentMarkers.push(marker);
