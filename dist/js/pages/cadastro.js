@@ -221,7 +221,7 @@ function cadastrarImovelService(objImovel){
     "bathrooms": objImovel.bathrooms,
     "suites": objImovel.suites,
     "parkingspaces": objImovel.parkingspaces,
-    "rate": getRandomInt(27,83),
+    "rate": getRandomInt(49,87),
     "createdat": "2010-11-16",
     "final_date": "2022-12-01",
     "price_m2": objImovel.price_m2
