@@ -70,8 +70,6 @@ $(function () {
 
 
 function preencherTabela(){
-  carregarMapa(principal);
-
   execucaoService.dataset.forEach(function(empresa, index){
     var tr = document.createElement("tr");
     var td = document.createElement("td");

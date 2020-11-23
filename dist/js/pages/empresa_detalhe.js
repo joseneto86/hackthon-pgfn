@@ -37,9 +37,7 @@ function preencherEmpresa(){
 }	
 
 function processoExibirImovel(){
-	$('#modal-load').modal('show');
 	carregarDataSetImoveis(processo.latitude, processo.longitude, finalizarMapa);
-	
 }
 
 function finalizarMapa(){
